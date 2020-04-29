@@ -1,1 +1,8 @@
 <p>portfolio-form works!</p>
+
+<div *ngIf="portfolioId; else elseBlock">
+  Edit {{portfolioId}}
+</div>
+<ng-template #elseBlock>
+  Create
+</ng-template>

@@ -58,7 +58,15 @@ import { PortfolioDashboardComponent } from './portfolio/portfolio-dashboard/por
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
-      { path: 'portfolios', component: PortfolioDashboardComponent, canActivate: [AuthorizeGuard] },
+      {
+        path: 'portfolios', canActivate: [AuthorizeGuard], children: [
+          { path: '', component: PortfolioDashboardComponent },
+          { path: 'create', component: PortfolioFormComponent },
+          { path: ':portfolioId', component: PortfolioViewComponent },
+          { path: 'edit/:portfolioId', component: PortfolioFormComponent },
+          
+        ]
+      },
     ])
   ],
   providers: [

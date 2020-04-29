@@ -1,1 +1,29 @@
 <p>portfolio-dashboard works!</p>
+<a class="btn btn-primary" [routerLink]="['/portfolios/create']" title="Create"><i class="fas fa-plus" title="Create"></i> Create</a>
+
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <td scope="col">Name</td>
+        <td scope="col">Created Date</td>
+        <td scope="col">Owner Name</td>
+        <td scope="col">Owner Email</td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody *ngFor="let portfolio of PortfolioList">
+      <tr>
+        <td>{{portfolio.name}}</td>
+        <td>{{portfolio.createdDateTime | date:'medium'}}</td>
+        <td>{{portfolio.owner.firstName}} {{portfolio.owner.lastName}}</td>
+        <td>{{portfolio.owner.email}}</td>
+        <td scope="col">
+          <a style="padding-left:15px;" [routerLink]="['/portfolios', portfolio.id]"><i class="fas fa-info-circle" title="Details"></i></a>
+          <a style="padding-left:15px;" [routerLink]="['/portfolios/edit', portfolio.id]"><i class="fas fa-edit" title="Edit"></i></a>
+          <a style="padding-left:15px;" [routerLink]="['/portfolios/delete', portfolio.id]"><i class="fas fa-trash" title="Delete"></i></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
