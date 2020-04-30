@@ -1,18 +1,18 @@
 export class Property {
-  public Id: string;
-  public CreatedDateTime: Date;
-  public Address: Address;
-  public PurchasePrice: number;
-  public PurchaseDate: Date;
+  public id: string;
+  public createdDateTime: Date;
+  public address: Address;
+  public purchasePrice: number;
+  public purchaseDate: Date;
 
 }
 
 export class Address {
-  public Id: string;
-  public CreatedDateTime: Date;
-  public Line1: string;
-  public Line2: string;
-  public Line3: string;
-  public PostCode: string;
-  public City: string;
+  public id: string;
+  public createdDateTime: Date;
+  public line1: string;
+  public line2: string;
+  public line3: string;
+  public postCode: string;
+  public city: string;
 }

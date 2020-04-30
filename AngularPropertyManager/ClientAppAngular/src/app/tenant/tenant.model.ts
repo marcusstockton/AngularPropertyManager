@@ -1,17 +1,17 @@
 export class Tenant {
-  public Id: string;
-  public CreatedDateTime: Date;
-  public FirstName: string;
-  public LastName: string;
-  public JobTitle: string;
-  public PhoneNumber: string;
-  public Nationality: string;
-  public TenancyStartDate: Date;
-  public Notes: Array<Note>;
+  public id: string;
+  public createdDateTime: Date;
+  public firstName: string;
+  public lastName: string;
+  public jobTitle: string;
+  public phoneNumber: string;
+  public nationality: string;
+  public tenancyStartDate: Date;
+  public notes: Array<Note>;
 }
 
 export class Note {
-  public Id: string;
-  public CreatedDateTime: Date;
-  public Description: string;
+  public id: string;
+  public createdDateTime: Date;
+  public description: string;
 }

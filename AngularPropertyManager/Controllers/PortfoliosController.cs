@@ -41,7 +41,14 @@ namespace AngularPropertyManager.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Portfolio>> GetPortfolio(Guid id)
         {
-            var portfolio = await _context.Portfolios.FindAsync(id);
+            var portfolio = await _context.Portfolios
+                .Include(x=>x.Properties)
+                    .ThenInclude(x=>x.Tenants)
+                        .ThenInclude(x=>x.Notes)
+                .Include(x=>x.Properties)
+                    .ThenInclude(x=>x.Address)
+                .Include(x=>x.Owner)
+                .SingleOrDefaultAsync(x=>x.Id == id);
 
             if (portfolio == null)
             {

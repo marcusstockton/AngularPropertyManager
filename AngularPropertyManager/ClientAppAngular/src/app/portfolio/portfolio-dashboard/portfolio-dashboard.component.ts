@@ -12,7 +12,7 @@ export class PortfolioDashboardComponent implements OnInit {
   constructor(private portfolioService: PortfolioService) { }
 
   ngOnInit() {
-    this.portfolioService.getPortfolios().subscribe((data) => {
+    this.portfolioService.getPortfolios().subscribe((data:Array<Portfolio>) => {
       this.PortfolioList = data;
       console.log(data);
     });

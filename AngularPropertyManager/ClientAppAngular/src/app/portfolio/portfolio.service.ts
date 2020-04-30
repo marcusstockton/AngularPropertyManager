@@ -1,8 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Portfolio } from './portfolio.model';
 import { Observable } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap} from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,8 @@ export class PortfolioService {
   }
 
   public getPortfolioById(id: string): Observable<Portfolio> {
-    return this.http.get<Portfolio>(this.base_url + this.portfolioUrl + id)
+    const params = new HttpParams().set('id', id);
+    return this.http.get<Portfolio>(this.base_url + this.portfolioUrl + "/" + id)
       .pipe(
         catchError((err) => {
           console.error(err);

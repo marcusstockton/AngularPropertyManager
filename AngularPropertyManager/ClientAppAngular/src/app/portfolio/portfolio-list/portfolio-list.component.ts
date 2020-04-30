@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Portfolio } from '../portfolio.model';
 
 @Component({
   selector: 'app-portfolio-list',
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./portfolio-list.component.css']
 })
 export class PortfolioListComponent implements OnInit {
+
+  @Input()
+  portfolioList: Array<Portfolio>;
 
   constructor() { }
 

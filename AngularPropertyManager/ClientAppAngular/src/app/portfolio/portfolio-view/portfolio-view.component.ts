@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { PortfolioService } from '../portfolio.service';
+import { Portfolio } from '../portfolio.model';
 
 @Component({
   selector: 'app-portfolio-view',
@@ -6,10 +9,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./portfolio-view.component.css']
 })
 export class PortfolioViewComponent implements OnInit {
-
-  constructor() { }
+  private portfolioId: string;
+  public portfolio: Portfolio;
+  constructor(private route: ActivatedRoute, private portfolioService: PortfolioService) {
+  }
 
   ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      this.portfolioId = params.get("portfolioId")
+      this.portfolioService.getPortfolioById(this.portfolioId).subscribe((data) => {
+        console.log(data);
+        this.portfolio = data;
+      }, (error) => {
+        console.log(error);
+      });
+    })
   }
 
 }

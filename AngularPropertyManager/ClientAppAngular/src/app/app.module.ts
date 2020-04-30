@@ -67,6 +67,15 @@ import { PortfolioDashboardComponent } from './portfolio/portfolio-dashboard/por
           
         ]
       },
+      {
+        path: 'property', canActivate: [AuthorizeGuard], children: [
+          //{ path: '', component: PropertyDashboardComponent },
+          { path: 'create', component: PropertyFormComponent },
+          { path: ':propertyId', component: PropertyViewComponent },
+          { path: 'edit/:propertyId', component: PropertyFormComponent },
+
+        ]
+      },
     ])
   ],
   providers: [

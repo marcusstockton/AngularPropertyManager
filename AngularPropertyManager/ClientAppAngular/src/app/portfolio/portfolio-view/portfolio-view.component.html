@@ -1,1 +1,33 @@
 <p>portfolio-view works!</p>
+
+<h3>{{portfolio.name}}</h3>
+
+<h5>Properties:</h5>
+<table class="table">
+  <thead>
+    <tr>
+      <td>Address</td>
+      <td>City</td>
+      <td>Post Code</td>
+      <td>Date Purchased</td>
+      <td>Purchase Value</td>
+      <td># Tenants</td>
+      <td></td>
+    </tr>
+  </thead>
+  <tbody *ngFor="let property of portfolio.properties">
+    <tr>
+      <td>{{property.address.line1}} {{property.address.line2}} {{property.address.line3}}</td>
+      <td>{{property.address.city}}</td>
+      <td>{{property.address.postCode}}</td>
+      <td>{{property.purchaseDate | date:'mediumDate' }}</td>
+      <td>{{property.purchasePrice | currency:'GBP'}}</td>
+      <td>{{property.tenants.length}}</td>
+      <td>
+        <a style="padding-left:15px;" [routerLink]="['/property', property.id]"><i class="fas fa-info-circle" title="Details"></i></a>
+        <a style="padding-left:15px;" [routerLink]="['/property/edit', property.id]"><i class="fas fa-edit" title="Edit"></i></a>
+        <a style="padding-left:15px;" [routerLink]="['/property/delete', property.id]"><i class="fas fa-trash" title="Delete"></i></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
