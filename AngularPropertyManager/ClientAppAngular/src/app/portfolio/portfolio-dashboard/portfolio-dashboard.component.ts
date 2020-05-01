@@ -14,7 +14,6 @@ export class PortfolioDashboardComponent implements OnInit {
   ngOnInit() {
     this.portfolioService.getPortfolios().subscribe((data:Array<Portfolio>) => {
       this.PortfolioList = data;
-      console.log(data);
     });
   }
 

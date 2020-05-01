@@ -34,6 +34,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientAppAngular\src\app\base.model.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="ClientAppAngular\angular.json" />
     <None Include="ClientAppAngular\e2e\tsconfig.e2e.json" />
     <None Include="ClientAppAngular\package-lock.json" />
@@ -52,6 +56,10 @@
     <Folder Include="Models\DTOs\Tenant\" />
     <Folder Include="Models\DTOs\Property\" />
     <Folder Include="Models\DTOs\Portfolio\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientAppAngular\src\app\base.model.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

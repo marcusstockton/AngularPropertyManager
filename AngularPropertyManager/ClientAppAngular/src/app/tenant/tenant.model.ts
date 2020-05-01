@@ -1,6 +1,4 @@
-export class Tenant {
-  public id: string;
-  public createdDateTime: Date;
+export class Tenant extends Base {
   public firstName: string;
   public lastName: string;
   public jobTitle: string;
@@ -10,8 +8,6 @@ export class Tenant {
   public notes: Array<Note>;
 }
 
-export class Note {
-  public id: string;
-  public createdDateTime: Date;
+export class Note extends Base{
   public description: string;
 }

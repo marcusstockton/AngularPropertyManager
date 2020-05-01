@@ -18,7 +18,6 @@ export class PortfolioViewComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.portfolioId = params.get("portfolioId")
       this.portfolioService.getPortfolioById(this.portfolioId).subscribe((data) => {
-        console.log(data);
         this.portfolio = data;
       }, (error) => {
         console.log(error);

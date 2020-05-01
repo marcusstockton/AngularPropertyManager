@@ -2,6 +2,18 @@
 
 <div *ngIf="portfolioId; else elseBlock">
   Edit {{portfolioId}}
+  <p>property-form works!</p>
+  <form [formGroup]="portfolioForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label class="label">
+        Name:
+        <input type="text" class="form-control" formControlName="name">
+      </label>
+    </div>
+    <div>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+  </form>
 </div>
 <ng-template #elseBlock>
   Create

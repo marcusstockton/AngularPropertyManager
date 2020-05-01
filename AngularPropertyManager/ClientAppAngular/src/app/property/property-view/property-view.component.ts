@@ -18,10 +18,9 @@ export class PropertyViewComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.propertyId = params.get("propertyId")
       this.propertyService.getPropertyById(this.propertyId).subscribe((data: Property) => {
-        console.log(data);
         this.property = data;
       }, (error) => {
-        console.log(error);
+        console.error(error);
       });
     })
   }

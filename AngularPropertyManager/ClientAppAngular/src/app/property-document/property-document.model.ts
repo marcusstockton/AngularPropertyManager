@@ -1,2 +1,2 @@
-export class PropertyDocument {
+export class PropertyDocument extends Base {
 }

@@ -1,1 +1,43 @@
 <p>property-form works!</p>
+<form [formGroup]="propertyForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label>
+      Purchase Price:
+      <input type="text" class="form-control" formControlName="purchasePrice">
+    </label>
+  </div>
+  <div formGroupName="address" class="form-group">
+    <label>
+      Line 1:
+      <input type="text" class="form-control" formControlName="line1">
+    </label>
+  </div>
+  <div formGroupName="address" class="form-group">
+    <label>
+      Line 2:
+      <input type="text" class="form-control" formControlName="line2">
+    </label>
+  </div>
+  <div formGroupName="address" class="form-group">
+    <label>
+      Line 3:
+      <input type="text" class="form-control" formControlName="line3">
+    </label>
+  </div>
+  <div formGroupName="address" class="form-group">
+    <label>
+      Post Code:
+      <input type="text" class="form-control" formControlName="postCode">
+    </label>
+  </div>
+  <div formGroupName="address" class="form-group">
+    <label>
+      City:
+      <input type="text" class="form-control" formControlName="city">
+    </label>
+  </div>
+
+  <div>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </div>
+</form>
