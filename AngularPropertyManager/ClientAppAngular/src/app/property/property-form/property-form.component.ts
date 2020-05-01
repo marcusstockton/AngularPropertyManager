@@ -3,6 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { PropertyService } from '../property.service';
 import { Property } from '../property.model';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-property-form',
@@ -12,7 +13,7 @@ import { Property } from '../property.model';
 export class PropertyFormComponent implements OnInit {
   private propertyId: string;
 
-  constructor(private route: ActivatedRoute, private propertyService: PropertyService) { }
+  constructor(private route: ActivatedRoute, private propertyService: PropertyService, private _location: Location) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -45,7 +46,10 @@ export class PropertyFormComponent implements OnInit {
   });
 
   onSubmit() {
-    // TODO: Use EventEmitter with form value
     console.warn(this.propertyForm.value);
+  }
+
+  backClicked() {
+    this._location.back();
   }
 }

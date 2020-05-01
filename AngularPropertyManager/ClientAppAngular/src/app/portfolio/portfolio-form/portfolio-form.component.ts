@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { PortfolioService } from '../portfolio.service';
 import { Portfolio } from '../portfolio.model';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-portfolio-form',
@@ -11,7 +12,11 @@ import { Portfolio } from '../portfolio.model';
 })
 export class PortfolioFormComponent implements OnInit {
   private portfolioId: string;
-  constructor(private route: ActivatedRoute, private portfolioService: PortfolioService) {
+  constructor(
+    private route: ActivatedRoute,
+    private portfolioService: PortfolioService,
+    private _location: Location,
+    private router: Router) {
     
   }
 
@@ -29,11 +34,24 @@ export class PortfolioFormComponent implements OnInit {
   }
 
   portfolioForm = new FormGroup({
+    id: new FormControl(''),
     name: new FormControl(''),
+    createdDateTime: new FormControl(''),
+    updatedDateTime: new FormControl(''),
+    owner: new FormControl(''),
+    properties: new FormControl('')
   });
 
   onSubmit() {
-    // TODO: Use EventEmitter with form value
     console.warn(this.portfolioForm.value);
+    this.portfolioService.updatePortfolio(this.portfolioId, this.portfolioForm.value).subscribe((data) => {
+      this.router.navigate(['/portfolios', { portfolioId: this.portfolioId }]);
+    }, (error) => {
+        console.error(error);
+    })
+  }
+
+  backClicked() {
+    this._location.back();
   }
 }

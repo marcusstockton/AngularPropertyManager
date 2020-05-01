@@ -39,5 +39,16 @@ export class PortfolioService {
       )
   }
 
+  updatePortfolio(id: string, portfolio: Portfolio): Observable<Portfolio> {
+    const params = new HttpParams().set("id", id);
+    return this.http.put<Portfolio>(this.base_url + this.portfolioUrl + "/" + id, portfolio)
+      .pipe(
+        catchError((err) => {
+          console.error(err);
+          throw err;
+        }
+        )
+      )
+  }
 
 }
