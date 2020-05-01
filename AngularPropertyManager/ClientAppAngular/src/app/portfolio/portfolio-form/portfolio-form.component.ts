@@ -11,7 +11,8 @@ import { Location } from '@angular/common';
   styleUrls: ['./portfolio-form.component.css']
 })
 export class PortfolioFormComponent implements OnInit {
-  private portfolioId: string;
+  public portfolioId: string;
+
   constructor(
     private route: ActivatedRoute,
     private portfolioService: PortfolioService,

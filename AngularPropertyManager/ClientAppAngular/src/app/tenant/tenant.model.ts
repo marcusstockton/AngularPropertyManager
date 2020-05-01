@@ -1,3 +1,5 @@
+import { Base } from "../base.model";
+
 export class Tenant extends Base {
   public firstName: string;
   public lastName: string;

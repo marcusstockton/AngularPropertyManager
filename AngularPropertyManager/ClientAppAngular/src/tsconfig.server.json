@@ -4,6 +4,13 @@
     "module": "commonjs"
   },
   "angularCompilerOptions": {
-    "entryModule": "app/app.server.module#AppServerModule"
-  }
+    "entryModule": "app/app.server.module#AppServerModule",
+    "enableIvy": true
+  },
+  "files": [
+    "main.ts"
+  ],
+  "include": [
+    "src/**/*.d.ts"
+  ]
 }

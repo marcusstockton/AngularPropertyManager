@@ -1,3 +1,5 @@
+import { Base } from "../base.model";
+
 export class Property extends Base {
   public address: Address;
   public purchasePrice: number;

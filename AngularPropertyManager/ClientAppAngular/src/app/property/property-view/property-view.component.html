@@ -1,35 +1,31 @@
 <p>property-view works!</p>
 
-<p>{{propertyId}}</p>
-
 <div *ngIf="property; else elseBlock">
-
-
   <dl class="row">
     <dt class="col-sm-3">Address</dt>
     <dd class="col-sm-9">
       <dl class="row">
         <dt class="col-sm-3">Line 1</dt>
-        <dd class="col-sm-9">{{property.address.line1}}</dd>
+        <dd class="col-sm-9">{{property?.address?.line1}}</dd>
         <dt class="col-sm-3">Line 2</dt>
-        <dd class="col-sm-9">{{property.address.line2}}</dd>
+        <dd class="col-sm-9">{{property?.address?.line2}}</dd>
         <dt class="col-sm-3">Line 3</dt>
-        <dd class="col-sm-9">{{property.address.line3}}</dd>
+        <dd class="col-sm-9">{{property?.address?.line3}}</dd>
         <dt class="col-sm-3">Post Code</dt>
-        <dd class="col-sm-9">{{property.address.postCode}}</dd>
+        <dd class="col-sm-9">{{property?.address?.postCode}}</dd>
         <dt class="col-sm-3">City</dt>
-        <dd class="col-sm-9">{{property.address.city}}</dd>
+        <dd class="col-sm-9">{{property?.address?.city}}</dd>
       </dl>
     </dd>
     <dt class="col-sm-3">Purchase Date</dt>
-    <dd class="col-sm-9">{{property.purchaseDate | date:'mediumDate'}}</dd>
+    <dd class="col-sm-9">{{property?.purchaseDate | date:'mediumDate'}}</dd>
     <dt class="col-sm-3">Images</dt>
     <dd class="col-sm-9">
-      {{property.images.length}}
+      {{property?.images?.length}}
     </dd>
     <dt class="col-sm-3">Documents</dt>
     <dd class="col-sm-9">
-      {{property.documents.length}}
+      {{property?.documents?.length}}
     </dd>
   </dl>
 

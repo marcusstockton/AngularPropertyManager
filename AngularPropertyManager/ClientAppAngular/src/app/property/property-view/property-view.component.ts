@@ -10,7 +10,7 @@ import { Property } from '../property.model';
 })
 export class PropertyViewComponent implements OnInit {
   private propertyId: string;
-  private property: Property;
+  public property: Property;
 
   constructor(private route: ActivatedRoute, private propertyService: PropertyService) { }
 
