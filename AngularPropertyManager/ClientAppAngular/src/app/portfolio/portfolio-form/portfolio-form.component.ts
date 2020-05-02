@@ -4,6 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { PortfolioService } from '../portfolio.service';
 import { Portfolio } from '../portfolio.model';
 import { Location } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-portfolio-form',
@@ -17,7 +18,8 @@ export class PortfolioFormComponent implements OnInit {
     private route: ActivatedRoute,
     private portfolioService: PortfolioService,
     private _location: Location,
-    private router: Router) {
+    private router: Router,
+    private toastr: ToastrService) {
     
   }
 
@@ -46,8 +48,10 @@ export class PortfolioFormComponent implements OnInit {
   onSubmit() {
     console.warn(this.portfolioForm.value);
     this.portfolioService.updatePortfolio(this.portfolioId, this.portfolioForm.value).subscribe((data) => {
+      this.toastr.success("Portfolio updated", "Success");
       this.router.navigate(['/portfolios', { portfolioId: this.portfolioId }]);
     }, (error) => {
+        this.toastr.error(error, "Error");
         console.error(error);
     })
   }

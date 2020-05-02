@@ -26,6 +26,8 @@ import { PropertyDocumentFormComponent } from './property-document/property-docu
 import { PropertyDocumentViewComponent } from './property-document/property-document-view/property-document-view.component';
 import { PropertyDocumentListComponent } from './property-document/property-document-list/property-document-list.component';
 import { PortfolioDashboardComponent } from './portfolio/portfolio-dashboard/portfolio-dashboard.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import { PortfolioDashboardComponent } from './portfolio/portfolio-dashboard/por
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
