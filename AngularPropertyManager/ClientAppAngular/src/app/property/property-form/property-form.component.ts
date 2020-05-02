@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormGroup, FormControl, FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PropertyService } from '../property.service';
 import { Property } from '../property.model';
 import { Location } from '@angular/common';
@@ -13,7 +13,11 @@ import { Location } from '@angular/common';
 export class PropertyFormComponent implements OnInit {
   private propertyId: string;
 
-  constructor(private route: ActivatedRoute, private propertyService: PropertyService, private _location: Location) { }
+  constructor(
+    private route: ActivatedRoute,
+    private propertyService: PropertyService,
+    private _location: Location,
+    private router: Router) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -32,6 +36,7 @@ export class PropertyFormComponent implements OnInit {
     id: new FormControl(""),
     purchasePrice: new FormControl(''),
     createdDateTime: new FormControl(''),
+    purchaseDate: new FormControl(''),
     updatedDateTime: new FormControl(''),
     address: new FormGroup({
       id: new FormControl(''),
@@ -47,6 +52,11 @@ export class PropertyFormComponent implements OnInit {
 
   onSubmit() {
     console.warn(this.propertyForm.value);
+    this.propertyService.updateProperty(this.propertyId, this.propertyForm.value).subscribe((data) => {
+      this.backClicked();
+    }, (error) => {
+        console.error(error);
+    });
   }
 
   backClicked() {

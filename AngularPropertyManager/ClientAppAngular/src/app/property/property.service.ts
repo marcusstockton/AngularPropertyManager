@@ -26,4 +26,15 @@ export class PropertyService {
       )
   }
 
+  public updateProperty(id: string, property: Property): Observable<Property> {
+    return this.http.put<Property>(this.base_url + this.propertyUrl + "/" + id, property)
+      .pipe(
+        catchError((err) => {
+          console.error(err);
+          throw err;
+        }
+        )
+      )
+  }
+
 }

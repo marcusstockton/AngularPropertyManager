@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System;
 
 namespace AngularPropertyManager
 {
@@ -95,6 +96,7 @@ namespace AngularPropertyManager
                 spa.Options.SourcePath = "ClientAppAngular";
                 if (env.IsDevelopment())
                 {
+                    spa.Options.StartupTimeout = new TimeSpan(days: 0, hours: 0, minutes: 1, seconds: 30);
                     spa.UseAngularCliServer(npmScript: "start");
                 }
 

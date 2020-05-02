@@ -59,7 +59,11 @@ namespace AngularPropertyManager.Controllers
                 return BadRequest();
             }
 
+            property.UpdatedDateTime = DateTime.Now;
+            property.Address.UpdatedDateTime = DateTime.Now;
+
             _context.Entry(@property).State = EntityState.Modified;
+            _context.Entry(property.Address).State = EntityState.Modified;
 
             try
             {
