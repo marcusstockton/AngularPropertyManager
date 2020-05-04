@@ -1,10 +1,6 @@
 ﻿using AngularPropertyManager.Models;
 using AngularPropertyManager.Models.DTOs.Address;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AngularPropertyManager.Profiles
 {
@@ -13,6 +9,7 @@ namespace AngularPropertyManager.Profiles
         public AddressProfile()
         {
             CreateMap<Address, AddressCreateDto>().ReverseMap();
+            CreateMap<Address, AddressDetailsDto>().ReverseMap();
         }
     }
 }

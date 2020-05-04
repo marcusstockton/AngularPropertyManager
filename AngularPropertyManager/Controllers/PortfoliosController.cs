@@ -9,6 +9,8 @@ using AngularPropertyManager.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using AngularPropertyManager.Models.DTOs.Portfolio;
+using AutoMapper;
+using AngularPropertyManager.Models.DTOs.ApplicationUser;
 
 namespace AngularPropertyManager.Controllers
 {
@@ -18,10 +20,12 @@ namespace AngularPropertyManager.Controllers
     public class PortfoliosController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public PortfoliosController(ApplicationDbContext context)
+        public PortfoliosController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Portfolios
@@ -38,7 +42,7 @@ namespace AngularPropertyManager.Controllers
 
         // GET: api/Portfolios/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Portfolio>> GetPortfolio(Guid id)
+        public async Task<ActionResult<PortfolioDetailsDto>> GetPortfolio(Guid id)
         {
             var portfolio = await _context.Portfolios
                 .Include(x=>x.Properties)
@@ -48,13 +52,24 @@ namespace AngularPropertyManager.Controllers
                     .ThenInclude(x=>x.Address)
                 .Include(x=>x.Owner)
                 .SingleOrDefaultAsync(x=>x.Id == id);
-
+            
             if (portfolio == null)
             {
                 return NotFound();
             }
+            try
+            {
+                var portfolioDetails = _mapper.Map<PortfolioDetailsDto>(portfolio);
+                return Ok(portfolioDetails);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+                throw;
+            }
+            //portfolio.Owner = _mapper.Map<ApplicationUserDetailsDto>(portfolioDetails.Owner);
 
-            return Ok(portfolio);
+            
         }
 
         // PUT: api/Portfolios/5

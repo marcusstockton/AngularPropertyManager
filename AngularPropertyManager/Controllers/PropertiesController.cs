@@ -35,7 +35,7 @@ namespace AngularPropertyManager.Controllers
 
         // GET: api/Properties/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Property>> GetProperty(Guid id)
+        public async Task<ActionResult<PropertyDetailsDto>> GetProperty(Guid id)
         {
             var @property = await _context.Properties
                 .Include(x => x.Address)
@@ -49,8 +49,8 @@ namespace AngularPropertyManager.Controllers
             {
                 return NotFound();
             }
-
-            return @property;
+            var property_detail = _mapper.Map<PropertyDetailsDto>(@property);
+            return Ok(property_detail);
         }
 
         // PUT: api/Properties/5

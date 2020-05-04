@@ -9,6 +9,7 @@ namespace AngularPropertyManager.Profiles
         public PropertyProfile()
         {
             CreateMap<Property, PropertyCreateDto>().ReverseMap();
+            CreateMap<Property, PropertyDetailsDto>().ReverseMap();
         }
     }
 }

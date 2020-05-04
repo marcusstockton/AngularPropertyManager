@@ -27,11 +27,14 @@ export class PropertyFormComponent implements OnInit {
       this.portfolioId = params.get("portfolioId");
 
       if (this.propertyId) {
-        this.propertyService.getPropertyById(this.propertyId).subscribe((data: Property) => {
-          this.propertyForm.patchValue(data);
-        }, (error) => {
+        this.propertyService.getPropertyById(this.propertyId)
+          .subscribe((data: Property) => {
+            this.propertyForm.patchValue(data);
+            const purchaseDate = new Date(data.purchaseDate).toISOString().substring(0, 10);
+            this.propertyForm.controls["purchaseDate"].setValue(purchaseDate);
+          }, (error) => {
             console.error(error);
-        });
+          });
       }
     })
   }
@@ -67,7 +70,7 @@ export class PropertyFormComponent implements OnInit {
     } else {
       // Post
       this.propertyService.createProperty(this.portfolioId, this.propertyForm.value).subscribe((data) => {
-        this.toastr.success("Portfolio created.", "Success");
+        this.toastr.success("Property created.", "Success");
         this.backClicked();
       }, (error) => {
         this.toastr.error(error.statusText, "Error");
