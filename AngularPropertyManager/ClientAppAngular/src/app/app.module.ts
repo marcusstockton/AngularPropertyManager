@@ -69,13 +69,12 @@ import { ToastrModule } from 'ngx-toastr';
           { path: 'create', component: PortfolioFormComponent },
           { path: ':portfolioId', component: PortfolioViewComponent },
           { path: 'edit/:portfolioId', component: PortfolioFormComponent },
-          
         ]
       },
       {
         path: 'property', canActivate: [AuthorizeGuard], children: [
           //{ path: '', component: PropertyDashboardComponent },
-          { path: 'create', component: PropertyFormComponent },
+          { path: 'create/:portfolioId', component: PropertyFormComponent },
           { path: ':propertyId', component: PropertyViewComponent },
           { path: 'edit/:propertyId', component: PropertyFormComponent },
 

@@ -20,7 +20,7 @@ export class PortfolioFormComponent implements OnInit {
     private _location: Location,
     private router: Router,
     private toastr: ToastrService) {
-    
+
   }
 
   ngOnInit() {
@@ -47,13 +47,25 @@ export class PortfolioFormComponent implements OnInit {
 
   onSubmit() {
     console.warn(this.portfolioForm.value);
-    this.portfolioService.updatePortfolio(this.portfolioId, this.portfolioForm.value).subscribe((data) => {
-      this.toastr.success("Portfolio updated", "Success");
-      this.router.navigate(['/portfolios', { portfolioId: this.portfolioId }]);
-    }, (error) => {
+    if (this.portfolioId) {
+      this.portfolioService.updatePortfolio(this.portfolioId, this.portfolioForm.value).subscribe((data) => {
+        this.toastr.success("Portfolio updated", "Success");
+        this.router.navigate(['/portfolios', { portfolioId: this.portfolioId }]);
+      }, (error) => {
+        this.toastr.error(error.statusText, "Error");
+        console.error(error);
+      })
+    } else {
+      // Post
+      this.portfolioService.createPortfolio(this.portfolioForm.value).subscribe((data) => {
+        this.toastr.success("Portfolio created", "Success");
+        this.router.navigate(['/portfolios', { portfolioId: this.portfolioId }]);
+      }, (error) => {
         this.toastr.error(error, "Error");
         console.error(error);
-    })
+      })
+    }
+
   }
 
   backClicked() {

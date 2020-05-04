@@ -16,6 +16,7 @@ namespace AngularPropertyManager.Data
 
         public DbSet<Portfolio> Portfolios { get; set; }
         public DbSet<Property> Properties { get; set; }
+        public DbSet<Address> Address { get; set; }
         public DbSet<PropertyDocument> PropertyDocuments { get; set; }
         public DbSet<Image> PropertyImages { get; set; }
         public DbSet<Tenant> Tenants { get; set; }

@@ -11,6 +11,6 @@ namespace AngularPropertyManager.Models
         public double PurchasePrice { get; set; }
         public DateTime PurchaseDate { get; set; }
         public List<Tenant> Tenants { get; set; }
-
+        public virtual Portfolio Portfolio { get; set; }
     }
 }

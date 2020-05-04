@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class PropertyFormComponent implements OnInit {
   private propertyId: string;
+  private portfolioId: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,8 +23,10 @@ export class PropertyFormComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.propertyId = params.get("propertyId")
-      if (this.propertyId.length > 0) {
+      this.propertyId = params.get("propertyId");
+      this.portfolioId = params.get("portfolioId");
+
+      if (this.propertyId) {
         this.propertyService.getPropertyById(this.propertyId).subscribe((data: Property) => {
           this.propertyForm.patchValue(data);
         }, (error) => {
@@ -53,13 +56,25 @@ export class PropertyFormComponent implements OnInit {
 
   onSubmit() {
     console.warn(this.propertyForm.value);
-    this.propertyService.updateProperty(this.propertyId, this.propertyForm.value).subscribe((data) => {
-      this.toastr.success("Portfolio updated", "Success");
-      this.backClicked();
-    }, (error) => {
+    if (this.propertyId) {
+      this.propertyService.updateProperty(this.propertyId, this.propertyForm.value).subscribe((data) => {
+        this.toastr.success("Portfolio updated", "Success");
+        this.backClicked();
+      }, (error) => {
         this.toastr.error(error, "Error");
         console.error(error);
-    });
+      });
+    } else {
+      // Post
+      this.propertyService.createProperty(this.portfolioId, this.propertyForm.value).subscribe((data) => {
+        this.toastr.success("Portfolio created.", "Success");
+        this.backClicked();
+      }, (error) => {
+        this.toastr.error(error.statusText, "Error");
+        console.error(error);
+      });
+    }
+    
   }
 
   backClicked() {

@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
+using AutoMapper;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace AngularPropertyManager
 {
@@ -37,9 +40,19 @@ namespace AngularPropertyManager
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddAuthentication()
                 .AddIdentityServerJwt();
-            services.AddControllersWithViews();
+
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                {
+                    // Use the default property (Pascal) casing
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
+
             services.AddRazorPages();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

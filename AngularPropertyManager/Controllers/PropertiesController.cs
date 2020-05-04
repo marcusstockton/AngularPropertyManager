@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AngularPropertyManager.Data;
 using AngularPropertyManager.Models;
+using AngularPropertyManager.Models.DTOs.Property;
+using System.Security.Claims;
+using AutoMapper;
 
 namespace AngularPropertyManager.Controllers
 {
@@ -15,10 +18,12 @@ namespace AngularPropertyManager.Controllers
     public class PropertiesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public PropertiesController(ApplicationDbContext context)
+        public PropertiesController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Properties
@@ -33,12 +38,12 @@ namespace AngularPropertyManager.Controllers
         public async Task<ActionResult<Property>> GetProperty(Guid id)
         {
             var @property = await _context.Properties
-                .Include(x=>x.Address)
-                .Include(x=>x.Tenants)
-                    .ThenInclude(x=>x.Notes)
-                .Include(x=>x.Documents)
-                .Include(x=>x.Images)
-                .SingleOrDefaultAsync(x=>x.Id == id);
+                .Include(x => x.Address)
+                .Include(x => x.Tenants)
+                    .ThenInclude(x => x.Notes)
+                .Include(x => x.Documents)
+                .Include(x => x.Images)
+                .SingleOrDefaultAsync(x => x.Id == id);
 
             if (@property == null)
             {
@@ -87,13 +92,27 @@ namespace AngularPropertyManager.Controllers
         // POST: api/Properties
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<Property>> PostProperty(Property @property)
+        [HttpPost("{portfolioId}")]
+        public async Task<ActionResult<Property>> PostProperty(Guid portfolioId, PropertyCreateDto @property)
         {
-            _context.Properties.Add(@property);
+            var address = _mapper.Map<Address>(@property.Address);
+            var portfolio = await _context.Portfolios.FindAsync(portfolioId);
+            var new_property = new Property
+            {
+                Address = address,
+                CreatedDateTime = DateTime.Now,
+                PurchaseDate = @property.PurchaseDate,
+                PurchasePrice = @property.PurchasePrice,
+                Portfolio = portfolio,
+                //Documents = @property.Documents,
+                //Images = @property.Images,
+                //Tenants = @property.Tenants,
+            };
+            _context.Properties.Add(new_property);
+            _context.Address.Add(new_property.Address);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProperty", new { id = @property.Id }, @property);
+            return CreatedAtAction("GetProperty", new { id = new_property.Id }, new_property);
         }
 
         // DELETE: api/Properties/5

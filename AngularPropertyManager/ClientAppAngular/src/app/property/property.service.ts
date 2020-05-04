@@ -37,4 +37,15 @@ export class PropertyService {
       )
   }
 
+  public createProperty(portfolioId: string, property: Property): Observable<Property> {
+    return this.http.post<Property>(this.base_url + this.propertyUrl + '/' + portfolioId, property)
+      .pipe(
+        catchError((err) => {
+          console.error(err);
+          throw err;
+        }
+        )
+      )
+  }
+
 }

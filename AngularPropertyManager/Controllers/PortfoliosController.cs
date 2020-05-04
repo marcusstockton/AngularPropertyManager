@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AngularPropertyManager.Data;
 using AngularPropertyManager.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using AngularPropertyManager.Models.DTOs.Portfolio;
 
 namespace AngularPropertyManager.Controllers
 {
@@ -55,7 +54,7 @@ namespace AngularPropertyManager.Controllers
                 return NotFound();
             }
 
-            return portfolio;
+            return Ok(portfolio);
         }
 
         // PUT: api/Portfolios/5
@@ -94,12 +93,21 @@ namespace AngularPropertyManager.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Portfolio>> PostPortfolio(Portfolio portfolio)
+        public async Task<ActionResult<Portfolio>> PostPortfolio(PortfolioCreateDto portfolio)
         {
-            _context.Portfolios.Add(portfolio);
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var user = await _context.Users.FindAsync(userId);
+            var new_portfolio = new Portfolio
+            {
+                Name = portfolio.Name,
+            };
+            new_portfolio.CreatedDateTime = DateTime.Now;
+            new_portfolio.Owner = user;
+           
+            _context.Portfolios.Add(new_portfolio);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPortfolio", new { id = portfolio.Id }, portfolio);
+            return CreatedAtAction("GetPortfolio", new { id =  new_portfolio.Id }, new_portfolio);
         }
 
         // DELETE: api/Portfolios/5

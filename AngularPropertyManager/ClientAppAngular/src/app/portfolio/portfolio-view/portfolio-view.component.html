@@ -2,32 +2,44 @@
 
 <h3>{{portfolio?.name}}</h3>
 
-<h5>Properties:</h5>
-<table class="table">
-  <thead>
-    <tr>
-      <td>Address</td>
-      <td>City</td>
-      <td>Post Code</td>
-      <td>Date Purchased</td>
-      <td>Purchase Value</td>
-      <td># Tenants</td>
-      <td></td>
-    </tr>
-  </thead>
-  <tbody *ngFor="let property of portfolio?.properties">
-    <tr>
-      <td>{{property?.address?.line1}} {{property?.address?.line2}} {{property?.address?.line3}}</td>
-      <td>{{property?.address?.city}}</td>
-      <td>{{property?.address?.postCode}}</td>
-      <td>{{property?.purchaseDate | date:'mediumDate' }}</td>
-      <td>{{property?.purchasePrice | currency:'GBP'}}</td>
-      <td>{{property?.tenants?.length}}</td>
-      <td>
-        <a style="padding-left:15px;" [routerLink]="['/property', property.id]"><i class="fas fa-info-circle" title="Details"></i></a>
-        <a style="padding-left:15px;" [routerLink]="['/property/edit', property.id]"><i class="fas fa-edit" title="Edit"></i></a>
-        <a style="padding-left:15px;" [routerLink]="['/property/delete', property.id]"><i class="fas fa-trash" title="Delete"></i></a>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="row">
+  <div class="ml-auto mr-3">
+    <a class="btn btn-primary" [routerLink]="['/property/create', portfolio?.id]" title="Add Property"><i class="fas fa-plus" title="Add property"></i> Add Property</a>
+  </div>
+</div>
+
+<div *ngIf="portfolio?.properties.length > 0; else elseBlock">
+
+  <h5>Properties:</h5>
+  <table class="table">
+    <thead>
+      <tr>
+        <td>Address</td>
+        <td>City</td>
+        <td>Post Code</td>
+        <td>Date Purchased</td>
+        <td>Purchase Value</td>
+        <td># Tenants</td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody *ngFor="let property of portfolio?.properties">
+      <tr>
+        <td>{{property?.address?.line1}} {{property?.address?.line2}} {{property?.address?.line3}}</td>
+        <td>{{property?.address?.city}}</td>
+        <td>{{property?.address?.postCode}}</td>
+        <td>{{property?.purchaseDate | date:'mediumDate' }}</td>
+        <td>{{property?.purchasePrice | currency:'GBP'}}</td>
+        <td>{{property?.tenants?.length}}</td>
+        <td>
+          <a style="padding-left:15px;" [routerLink]="['/property', property.id]"><i class="fas fa-info-circle" title="Details"></i></a>
+          <a style="padding-left:15px;" [routerLink]="['/property/edit', property.id]"><i class="fas fa-edit" title="Edit"></i></a>
+          <a style="padding-left:15px;" [routerLink]="['/property/delete', property.id]"><i class="fas fa-trash" title="Delete"></i></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #elseBlock>No properties found for this portfolio.</ng-template>
+<a class="btn btn-light" [routerLink]="['/portfolios']" title="Back to list"> Back to list</a>
+
