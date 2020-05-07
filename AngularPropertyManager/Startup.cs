@@ -14,6 +14,8 @@ using System;
 using AutoMapper;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
+using AngularPropertyManager.Interfaces;
+using AngularPropertyManager.Services;
 
 namespace AngularPropertyManager
 {
@@ -61,6 +63,12 @@ namespace AngularPropertyManager
             });
             services.TryAddTransient<DataSeeder>();
 
+            services.TryAddScoped<IPortfolioService, PortfolioService>();
+            services.TryAddScoped<IPropertyService, PropertyService>();
+            services.TryAddScoped<IAddressService, AddressService>();
+            services.TryAddScoped<IFileService, FileService>();
+            services.TryAddScoped<INoteService, NoteService>();
+            services.TryAddScoped<ITenantService, TenantService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

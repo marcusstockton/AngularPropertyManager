@@ -10,6 +10,7 @@ using AngularPropertyManager.Models;
 using AngularPropertyManager.Models.DTOs.Property;
 using System.Security.Claims;
 using AutoMapper;
+using AngularPropertyManager.Interfaces;
 
 namespace AngularPropertyManager.Controllers
 {
@@ -17,34 +18,22 @@ namespace AngularPropertyManager.Controllers
     [ApiController]
     public class PropertiesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context; // TODO: Remove
+        private readonly IPropertyService _propertyService;
         private readonly IMapper _mapper;
 
-        public PropertiesController(ApplicationDbContext context, IMapper mapper)
+        public PropertiesController(ApplicationDbContext context, IPropertyService propertyService, IMapper mapper)
         {
             _context = context;
+            _propertyService = propertyService;
             _mapper = mapper;
         }
-
-        // GET: api/Properties
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Property>>> GetProperties()
-        //{
-        //    return await _context.Properties.ToListAsync();
-        //}
 
         // GET: api/Properties/5
         [HttpGet("{id}")]
         public async Task<ActionResult<PropertyDetailsDto>> GetProperty(Guid id)
         {
-            var @property = await _context.Properties
-                .Include(x => x.Address)
-                .Include(x => x.Tenants)
-                    .ThenInclude(x => x.Notes)
-                .Include(x => x.Documents)
-                .Include(x => x.Images)
-                .SingleOrDefaultAsync(x => x.Id == id);
-
+            var @property = await _propertyService.GetProperty(id);
             if (@property == null)
             {
                 return NotFound();
@@ -64,11 +53,11 @@ namespace AngularPropertyManager.Controllers
                 return BadRequest();
             }
 
-            property.UpdatedDateTime = DateTime.Now;
-            property.Address.UpdatedDateTime = DateTime.Now;
+            @property.UpdatedDateTime = DateTime.Now;
+            @property.Address.UpdatedDateTime = DateTime.Now;
 
             _context.Entry(@property).State = EntityState.Modified;
-            _context.Entry(property.Address).State = EntityState.Modified;
+            _context.Entry(@property.Address).State = EntityState.Modified;
 
             try
             {
