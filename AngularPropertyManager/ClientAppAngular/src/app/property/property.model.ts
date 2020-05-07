@@ -4,7 +4,7 @@ export class Property extends Base {
   public address: Address;
   public purchasePrice: number;
   public purchaseDate: Date;
-
+  public images: Array<File>;
 }
 
 export class Address extends Base {

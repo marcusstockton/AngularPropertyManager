@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormGroup, FormControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { PropertyService } from '../property.service';
-import { Property } from '../property.model';
+import { Property, Address } from '../property.model';
 import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 
@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 export class PropertyFormComponent implements OnInit {
   private propertyId: string;
   private portfolioId: string;
+  images = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -45,6 +46,7 @@ export class PropertyFormComponent implements OnInit {
     createdDateTime: new FormControl(''),
     purchaseDate: new FormControl(''),
     updatedDateTime: new FormControl(''),
+    images: new FormControl(''),
     address: new FormGroup({
       id: new FormControl(''),
       createdDateTime: new FormControl(''),
@@ -59,8 +61,31 @@ export class PropertyFormComponent implements OnInit {
 
   onSubmit() {
     console.warn(this.propertyForm.value);
+    const formData = new FormData();
+
+    let files = this.propertyForm.get("images").value;
+    for (let i = 0; i < files.length; i++) {
+      formData.append("images", files[i], files[i].name)
+    }
+
+    formData.append("id", this.propertyForm.get("id").value);
+    formData.append("createdDateTime", this.propertyForm.get("createdDateTime").value);
+    formData.append("updatedDateTime", this.propertyForm.get("updatedDateTime").value);
+    formData.append("purchaseDate", this.propertyForm.get("purchaseDate").value);
+    formData.append("purchasePrice", this.propertyForm.get("purchasePrice").value);
+
+    let address: Address = this.propertyForm.get("address").value;
+    formData.append("address.id", address.id);
+    formData.append("address.line1", address.line1);
+    formData.append("address.line2", address.line2);
+    formData.append("address.line3", address.line3);
+    formData.append("address.city", address.city);
+    formData.append("address.postCode", address.postCode);
+    formData.append("address.createdDateTime", address.createdDateTime.toString());
+    formData.append("address.updatedDateTime", address.updatedDateTime.toString());
+
     if (this.propertyId) {
-      this.propertyService.updateProperty(this.propertyId, this.propertyForm.value).subscribe((data) => {
+      this.propertyService.updateProperty(this.propertyId, formData).subscribe((data) => {
         this.toastr.success("Portfolio updated", "Success");
         this.backClicked();
       }, (error) => {
@@ -77,8 +102,26 @@ export class PropertyFormComponent implements OnInit {
         console.error(error);
       });
     }
-    
+
   }
+  onFileSelect(event) {
+    if (event.target.files && event.target.files[0]) {
+      var filesAmount = event.target.files.length;
+      for (let i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+
+        reader.onload = (event: any) => {
+          this.images.push(event.target.result);
+        }
+
+        reader.readAsDataURL(event.target.files[i]);
+      }
+      this.propertyForm.patchValue({
+        images: event.target.files
+      });
+    }
+  }
+
 
   backClicked() {
     this._location.back();

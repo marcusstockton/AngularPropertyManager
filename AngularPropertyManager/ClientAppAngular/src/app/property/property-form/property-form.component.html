@@ -1,47 +1,67 @@
 <p>property-form works!</p>
-<form [formGroup]="propertyForm" (ngSubmit)="onSubmit()">
-  <div class="form-group">
-    <label>
-      Purchase Price:
-      <input type="text" class="form-control" formControlName="purchasePrice">
-    </label>
+<form [formGroup]="propertyForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+  <div class="row">
+    <div class="form-group col-sm-6">
+      <label>
+        Purchase Price:
+        <input type="text" class="form-control" formControlName="purchasePrice">
+      </label>
+    </div>
+    <div class="form-group col-sm-6">
+      <label>
+        Purchase Date:
+        <input type="date" class="form-control" formControlName="purchaseDate">
+      </label>
+    </div>
   </div>
-  <div class="form-group">
-    <label>
-      Purchase Date:
-      <input type="date" class="form-control" formControlName="purchaseDate">
-    </label>
+  <div class="row">
+    <div formGroupName="address" class="form-group col-sm-6">
+      <label>
+        Line 1:
+        <input type="text" class="form-control" formControlName="line1">
+      </label>
+    </div>
+    <div formGroupName="address" class="form-group col-sm-6">
+      <label>
+        Line 2:
+        <input type="text" class="form-control" formControlName="line2">
+      </label>
+    </div>
   </div>
-  <div formGroupName="address" class="form-group">
-    <label>
-      Line 1:
-      <input type="text" class="form-control" formControlName="line1">
-    </label>
+  <div class="row">
+    <div formGroupName="address" class="form-group col-sm-6">
+      <label>
+        Line 3:
+        <input type="text" class="form-control" formControlName="line3">
+      </label>
+    </div>
+    <div formGroupName="address" class="form-group col-sm-6">
+      <label>
+        Post Code:
+        <input type="text" class="form-control" formControlName="postCode">
+      </label>
+    </div>
   </div>
-  <div formGroupName="address" class="form-group">
-    <label>
-      Line 2:
-      <input type="text" class="form-control" formControlName="line2">
-    </label>
+  <div class="row">
+    <div formGroupName="address" class="form-group col-sm-6">
+      <label>
+        City:
+        <input type="text" class="form-control" formControlName="city">
+      </label>
+    </div>
   </div>
-  <div formGroupName="address" class="form-group">
-    <label>
-      Line 3:
-      <input type="text" class="form-control" formControlName="line3">
-    </label>
+  <div class="row">
+    <div class="form-group col-sm-6">
+      <label>
+        Image's:
+        <small>Upload an image(s) of your property here. Don't upload an inventory here.</small>
+        <input type="file" name="propertyImage" value="" class="form-control" (change)="onFileSelect($event)" multiple="multiple" accept=".jpg,.png,.jpeg" />
+      </label>
+      <img *ngFor='let url of images' [src]="url" height="150" style="margin: 3px;"> <br />
+    </div>
   </div>
-  <div formGroupName="address" class="form-group">
-    <label>
-      Post Code:
-      <input type="text" class="form-control" formControlName="postCode">
-    </label>
-  </div>
-  <div formGroupName="address" class="form-group">
-    <label>
-      City:
-      <input type="text" class="form-control" formControlName="city">
-    </label>
-  </div>
+  
+
 
   <div>
     <button type="submit" class="btn btn-primary">Save</button>

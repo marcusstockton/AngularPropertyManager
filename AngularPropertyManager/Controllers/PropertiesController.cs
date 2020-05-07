@@ -57,7 +57,7 @@ namespace AngularPropertyManager.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProperty(Guid id, Property @property)
+        public async Task<IActionResult> PutProperty(Guid id, [FromForm]PropertyUpdateDto @property)
         {
             if (id != @property.Id)
             {
