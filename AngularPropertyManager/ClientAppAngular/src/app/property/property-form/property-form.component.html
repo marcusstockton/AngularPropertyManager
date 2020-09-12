@@ -1,5 +1,6 @@
 <p>property-form works!</p>
 <form [formGroup]="propertyForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+  <input type="hidden" formControlName="id" />
   <div class="row">
     <div class="form-group col-sm-6">
       <label>
@@ -60,10 +61,11 @@
       <img *ngFor='let url of images' [src]="url" height="150" style="margin: 3px;"> <br />
     </div>
   </div>
-  
-
 
   <div>
+    <app-tenant-form [propertyId]="propertyId" (tenant)="tenantForm($event)"></app-tenant-form>
+  </div>
+  <div class="row">
     <button type="submit" class="btn btn-primary">Save</button>
     <button class="btn btn-light" type="button" (click)="backClicked()">Back</button>
   </div>

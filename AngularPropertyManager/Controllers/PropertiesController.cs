@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using AngularPropertyManager.Data;
 using AngularPropertyManager.Models;
 using AngularPropertyManager.Models.DTOs.Property;
-using System.Security.Claims;
 using AutoMapper;
 using AngularPropertyManager.Interfaces;
 
@@ -18,14 +12,14 @@ namespace AngularPropertyManager.Controllers
     [ApiController]
     public class PropertiesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context; // TODO: Remove
         private readonly IPropertyService _propertyService;
+        private readonly IPortfolioService _portfolioService;
         private readonly IMapper _mapper;
 
-        public PropertiesController(ApplicationDbContext context, IPropertyService propertyService, IMapper mapper)
+        public PropertiesController(IPropertyService propertyService, IPortfolioService portfolioService, IMapper mapper)
         {
-            _context = context;
             _propertyService = propertyService;
+            _portfolioService = portfolioService;
             _mapper = mapper;
         }
 
@@ -52,28 +46,8 @@ namespace AngularPropertyManager.Controllers
             {
                 return BadRequest();
             }
-
-            @property.UpdatedDateTime = DateTime.Now;
-            @property.Address.UpdatedDateTime = DateTime.Now;
-
-            _context.Entry(@property).State = EntityState.Modified;
-            _context.Entry(@property.Address).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PropertyExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            var data = _mapper.Map<Property>(@property);
+            await _propertyService.UpdateProperty(data);
 
             return NoContent();
         }
@@ -84,45 +58,26 @@ namespace AngularPropertyManager.Controllers
         [HttpPost("{portfolioId}")]
         public async Task<ActionResult<Property>> PostProperty(Guid portfolioId, PropertyCreateDto @property)
         {
-            var address = _mapper.Map<Address>(@property.Address);
-            var portfolio = await _context.Portfolios.FindAsync(portfolioId);
-            var new_property = new Property
-            {
-                Address = address,
-                CreatedDateTime = DateTime.Now,
-                PurchaseDate = @property.PurchaseDate,
-                PurchasePrice = @property.PurchasePrice,
-                Portfolio = portfolio,
-                //Documents = @property.Documents,
-                //Images = @property.Images,
-                //Tenants = @property.Tenants,
-            };
-            _context.Properties.Add(new_property);
-            _context.Address.Add(new_property.Address);
-            await _context.SaveChangesAsync();
+            //var address = _mapper.Map<Address>(@property.Address);
+            var portfolio = await _portfolioService.GetPortfolio(portfolioId);
 
-            return CreatedAtAction("GetProperty", new { id = new_property.Id }, new_property);
+            var newProperty = _mapper.Map<Property>(@property);
+            var result = await _propertyService.CreateProperty(portfolio, newProperty);
+
+            return CreatedAtAction("GetProperty", new { id = result.Id }, result);
         }
 
         // DELETE: api/Properties/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Property>> DeleteProperty(Guid id)
         {
-            var @property = await _context.Properties.FindAsync(id);
-            if (@property == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            _context.Properties.Remove(@property);
-            await _context.SaveChangesAsync();
-
-            return @property;
-        }
-
-        private bool PropertyExists(Guid id)
-        {
-            return _context.Properties.Any(e => e.Id == id);
+            await _propertyService.DeleteProperty(id);
+            return NoContent();
         }
     }
 }

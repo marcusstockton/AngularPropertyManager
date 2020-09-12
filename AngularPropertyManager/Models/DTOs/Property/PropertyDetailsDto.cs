@@ -3,8 +3,7 @@ using AngularPropertyManager.Models.DTOs.Portfolio;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using AngularPropertyManager.Models.DTOs.Tenant;
 
 namespace AngularPropertyManager.Models.DTOs.Property
 {
@@ -21,7 +20,7 @@ namespace AngularPropertyManager.Models.DTOs.Property
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTime PurchaseDate { get; set; }
-        public List<Tenant> Tenants { get; set; }
+        public List<TenantDetailsDto> Tenants { get; set; }
         public virtual PortfolioDetailsDto Portfolio { get; set; }
     }
 }

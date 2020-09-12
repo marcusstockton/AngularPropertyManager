@@ -60,7 +60,6 @@
 
   <ItemGroup>
     <Folder Include="ClientAppVue\" />
-    <Folder Include="Models\DTOs\Tenant\" />
   </ItemGroup>
 
   <ItemGroup>

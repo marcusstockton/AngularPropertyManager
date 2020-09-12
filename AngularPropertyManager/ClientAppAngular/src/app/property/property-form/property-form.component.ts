@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./property-form.component.css']
 })
 export class PropertyFormComponent implements OnInit {
-  private propertyId: string;
+  public propertyId: string;
   private portfolioId: string;
   images = [];
 
@@ -122,6 +122,9 @@ export class PropertyFormComponent implements OnInit {
     }
   }
 
+  tenantForm(event) {
+    alert("Tenant stuff: " + event.firstName);
+  }
 
   backClicked() {
     this._location.back();

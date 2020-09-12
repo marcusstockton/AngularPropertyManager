@@ -1,4 +1,5 @@
 ﻿using AngularPropertyManager.Models.DTOs.Address;
+using AngularPropertyManager.Models.DTOs.Tenant;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,6 @@ namespace AngularPropertyManager.Models.DTOs.Property
         public List<IFormFile> Images { get; set; }
         public double PurchasePrice { get; set; }
         public DateTime PurchaseDate { get; set; }
-        public List<Tenant> Tenants { get; set; }
+        public List<TenantDetailsDto> Tenants { get; set; }
     }
 }

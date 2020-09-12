@@ -1,1 +1,60 @@
 <p>tenant-form works!</p>
+<form [formGroup]="tenantForm" class="form col-sm-8">
+  <div class="row">
+    <div class="form-group col-sm-6">
+      <label>
+        First Name:
+        <input type="text" class="form-control" formControlName="firstName">
+      </label>
+    </div>
+    <div class="form-group col-sm-6">
+      <label>
+        Last Name:
+        <input type="text" class="form-control" formControlName="lastName">
+      </label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-sm-6">
+      <label>
+        Job Title:
+        <input type="text" class="form-control" formControlName="jobTitle">
+      </label>
+    </div>
+    <div class="form-group col-sm-6">
+      <label>
+        Phone Number:
+        <input type="tel" class="form-control" formControlName="phoneNumber">
+      </label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group col-sm-6">
+      <label>
+        Tenancy Start:
+        <input type="date" class="form-control" formControlName="tenancyStartDate">
+      </label>
+    </div>
+    <div class="form-group col-sm-6">
+      <label>
+        Tenancy End:
+        <input type="date" class="form-control" formControlName="tenancyEndDate">
+      </label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-sm-6">
+      <label>
+        Image:
+        <input type="file" class="form-control" formControlName="image">
+      </label>
+    </div>
+    <div class="form-group col-sm-6">
+
+    </div>
+  </div>
+  <div class="row">
+    <button class="btn btn-outline-info btn-sm" (click)="addTenant()">Add</button>
+  </div>
+</form>

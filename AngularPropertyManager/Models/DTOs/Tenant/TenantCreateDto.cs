@@ -1,10 +1,16 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace AngularPropertyManager.Models
+namespace AngularPropertyManager.Models.DTOs.Tenant
 {
-    public class Tenant : Base
+    public class TenantCreateDto
     {
+        public Guid Id { get; set; }
+        public DateTime CreatedDateTime { get; set; }
+        public DateTime? UpdatedDateTime { get; set; }
         public List<Note> Notes { get; set; }
         public string FirstName { get; internal set; }
         public string LastName { get; internal set; }
@@ -12,6 +18,6 @@ namespace AngularPropertyManager.Models
         public string PhoneNumber { get; internal set; }
         public string Nationality { get; internal set; }
         public DateTime TenancyStartDate { get; internal set; }
-        public DateTime? TenancyEndDate { get; internal set; }
+        public IFormFile Image { get; set; }
     }
 }

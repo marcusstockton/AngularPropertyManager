@@ -7,6 +7,7 @@ export class Tenant extends Base {
   public phoneNumber: string;
   public nationality: string;
   public tenancyStartDate: Date;
+  public tenancyEndDate: Date;
   public notes: Array<Note>;
 }
 
